@@ -7,7 +7,6 @@ namespace EmployeesDB;
 
 public class Program
 {
-    internal string CONNECTION_STRING = ConfigurationManager.ConnectionStrings["DB"].ConnectionString;
     static void Main(string[] args)
     {
         EntriesIO entriesIO = new EntriesIO();
@@ -31,7 +30,7 @@ public class Program
                 break;
             case "2":
                 Employee employee = new Employee(args);
-                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings[DB]))
+                using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
                 {
                     connection.Open();
                     employee.InsertEmployee(connection);

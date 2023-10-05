@@ -45,12 +45,31 @@ public class EntriesIO
         stopwatch.Stop();
     }
 
+    /// <summary>
+    /// Отправить все записи из списка в БД
+    /// </summary>
     public void InsertEntries()
     {
         using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
         {
             connection.Open();
             foreach (Employee employee in employees)
+            {
+                employee.InsertEmployee(connection);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Перегрузка метода, которая пакетно отправляет данные в БД, принимая массив объектов. пункт 4.
+    /// Для задания использую другую версию, которая отправляет данные из коллекции объекта.
+    /// </summary>
+    public void InsertEntries(List<Employee> employeesExternal)
+    {
+        using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+        {
+            connection.Open();
+            foreach (Employee employee in employeesExternal)
             {
                 employee.InsertEmployee(connection);
             }

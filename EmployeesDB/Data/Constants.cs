@@ -4,7 +4,7 @@ namespace EmployeesDB;
 
 public class Constants
 {
-    internal string CONNECTION_STRING = ConfigurationManager.ConnectionStrings["DB"].ConnectionString;
+    public static string CONNECTION_STRING = ConfigurationManager.ConnectionStrings["DB"].ConnectionString;
 
     //SQL-запросы
     #region SQL Commands
