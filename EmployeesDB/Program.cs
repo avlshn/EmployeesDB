@@ -1,59 +1,67 @@
-﻿using static EmployeesDB.Constants;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Protocols;
+using System.Configuration;
+using static EmployeesDB.Constants;
 
 namespace EmployeesDB;
 
 public class Program
 {
+    internal string CONNECTION_STRING = ConfigurationManager.ConnectionStrings["DB"].ConnectionString;
     static void Main(string[] args)
     {
-        //CreateTableMode.CreateTable(CONNECTION_STRING);
         EntriesIO entriesIO = new EntriesIO();
-        //RNGEntriesMode.GenerateAllEntries(entriesIO);
 
-        entriesIO.ReadEntries(READ_ENTRIES);
-        entriesIO.OnScreen();
-
-
-        //if (args.Length == 0) 
-        //{
-        //    Console.WriteLine("Invalid arguments.");
-        //    return;
-        //}
-        //switch (args[0])
-        //{
-        //    case "1":
-        //        CreateTableMode.CreateTable(CONNECTION_STRING);
-        //        break;
-        //    case "2":
-        //        Employee employee = new Employee(args);
-        //        using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
-        //        {
-        //            connection.Open();
-        //            employee.InsertEmployee(connection);
-        //        }
-        //        Console.WriteLine(employee.Age); 
-        //        break;
-        //    case "3":
-        //        EntriesIO entriesIO = new();
-        //        entriesIO.ReadEntries(READ_ENTRIES);
-        //        entriesIO.OnScreen();
-        //        entriesIO.InsertEntries();
-        //        Console.WriteLine("Entries are copied");
-        //        Console.WriteLine();
-        //        entriesIO.ReadEntries(READ_ENTRIES);
-        //        entriesIO.OnScreen();
-        //        break;
-        //    case "4":
-        //        Console.WriteLine("Mode 4 selected");
-        //        break;
-        //    case "5":
-        //        Console.WriteLine("Mode 5 selected");
-        //        break;
-        //    case "6":
-        //        Console.WriteLine("Mode 6 selected");
-        //        break;
-        //    default: Console.WriteLine("Invalid mode. Select 1 to 6");
-        //        break;
-        //}
+        if (args.Length == 0)
+        {
+            Console.WriteLine("Invalid arguments.");
+            return;
+        }
+        switch (args[0])
+        {
+            case "1":
+                try
+                {
+                    CreateTableMode.CreateTable();
+                }
+                catch (Exception ex)
+                {
+                     Console.WriteLine(ex.Message);
+                }
+                break;
+            case "2":
+                Employee employee = new Employee(args);
+                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings[DB]))
+                {
+                    connection.Open();
+                    employee.InsertEmployee(connection);
+                }
+                break;
+            case "3":
+                entriesIO.ReadEntries(READ_ENTRIES);
+                entriesIO.OnScreen();
+                break;
+            case "4":
+                try
+                {
+                    RNGEntriesMode.GenerateAllEntries(entriesIO);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                break;
+            case "5":
+                entriesIO.ReadEntries(READ_ENTRIES_F);
+                entriesIO.OnScreen();
+                break;
+            case "6":
+                entriesIO.ReadEntries(READ_ENTRIES_OPTIMIZED);
+                entriesIO.OnScreen();
+                break;
+            default:
+                Console.WriteLine("Invalid mode. Select 1 to 6");
+                break;
+        }
     }
 }

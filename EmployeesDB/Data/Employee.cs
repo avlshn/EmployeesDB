@@ -49,6 +49,13 @@ public class Employee
 
     #region Constructors
 
+
+    /// <summary>
+    /// Конструктор объекта напрямую из параметров запуска программы. Для простоты нескольких прогонов при проверке задания,
+    /// при неверно указанных параметрах заполняет значениями по умолчанию. В настоящем приложении сделал бы throw exception 
+    /// при неверном количестве параметров или формате даты, что исключило бы скрытые ошибки.
+    /// </summary>
+    /// <param name="parameters"> параметры, которые получает программа при запуске</param>
     public Employee(string[] parameters)
     {
         if (parameters.Length >= 2) _fullName = parameters[1];
@@ -65,6 +72,12 @@ public class Employee
         else _gender = "Male";
     }
 
+    /// <summary>
+    /// Конструктор по трем свойствам сотрудника.
+    /// </summary>
+    /// <param name="name">ФИО</param>
+    /// <param name="birth">Дата рождения</param>
+    /// <param name="gender">Пол</param>
     public Employee(string name, DateOnly birth, string gender)
     {
         FullName = name;
@@ -74,6 +87,13 @@ public class Employee
 
     #endregion
 
+    #region Methods
+
+    
+    /// <summary>
+    /// Добавление сотрудника в БД
+    /// </summary>
+    /// <param name="connection">SQL соединение</param>
     public void InsertEmployee(SqlConnection connection)
     {
         SqlCommand sqlCommand = new SqlCommand(INSERT_EMPLOYEE, connection);
@@ -81,8 +101,14 @@ public class Employee
         sqlCommand.Parameters.Add(new SqlParameter("@Birth", Birth));
         sqlCommand.Parameters.Add(new SqlParameter("@Gender", Gender));
         sqlCommand.ExecuteNonQuery();
+        Console.WriteLine($"Employee successfully added.\nName: {FullName} \nDate of birth: {Birth} " +
+            $"\nGender: {Gender}");
     }
 
+    /// <summary>
+    /// Вычисление возраста.
+    /// </summary>
+    /// <returns></returns>
     public int GetAge()
     {
         DateOnly now = DateOnly.FromDateTime(DateTime.Now);
@@ -91,8 +117,12 @@ public class Employee
         return age;
     }
 
+    /// <summary>
+    /// Вывод данных в заданном формате.
+    /// </summary>
     public void DataOnScreen()
     {
         Console.WriteLine("{0, -40} | {1, -12}  |  {2, -10}  |  {3, 5} ", FullName, Birth, Gender, Age);
     }
+    #endregion
 }

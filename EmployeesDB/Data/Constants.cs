@@ -1,11 +1,10 @@
-﻿namespace EmployeesDB;
+﻿using System.Configuration;
+
+namespace EmployeesDB;
 
 public class Constants
 {
-    /// <summary>
-    /// Строка подключения
-    /// </summary>
-    public const string CONNECTION_STRING = "Data Source=vlshn;Initial Catalog=Employees;Integrated Security=True;Encrypt=False;";
+    internal string CONNECTION_STRING = ConfigurationManager.ConnectionStrings["DB"].ConnectionString;
 
     //SQL-запросы
     #region SQL Commands

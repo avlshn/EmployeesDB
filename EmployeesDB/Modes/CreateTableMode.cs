@@ -5,17 +5,13 @@ namespace EmployeesDB;
 
 public static class CreateTableMode
 {
-    public static async void CreateTable(string connectionString)
+    public static void CreateTable()
     {
 
-        if (connectionString == null) return;
-        using (SqlConnection connection = new SqlConnection(connectionString))
-        {
-            connection.Open();
-            SqlCommand sqlCommand = new SqlCommand(CREATE_TABLE_COMMAND, connection);
-            sqlCommand.ExecuteNonQuery();
-        }
-
-
+        using SqlConnection connection = new SqlConnection(CONNECTION_STRING);
+        connection.Open();
+        SqlCommand sqlCommand = new SqlCommand(CREATE_TABLE_COMMAND, connection);
+        sqlCommand.ExecuteNonQuery();
+        Console.WriteLine("Table created.");
     }
 }

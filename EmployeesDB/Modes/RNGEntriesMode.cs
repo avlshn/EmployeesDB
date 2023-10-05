@@ -81,9 +81,7 @@ internal static class RNGEntriesMode
                 upper = 58;
                 break;
             default:
-                lower = 33;
-                upper = 123;
-                break;
+                throw new ArgumentException("Неверно выбран режим генерации символа.");
         }
 
         Random rnd = new Random();

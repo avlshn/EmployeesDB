@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Protocols;
 using System.Diagnostics;
 using static EmployeesDB.Constants;
 
@@ -15,7 +16,6 @@ public class EntriesIO
     public void ReadEntries(string sqlRequest)
     {
         employees.Clear();
-
         using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
         {
             int optimization;
